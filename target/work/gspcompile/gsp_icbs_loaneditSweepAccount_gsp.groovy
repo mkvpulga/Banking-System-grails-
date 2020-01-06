@@ -1,0 +1,196 @@
+import icbs.loans.Loan
+import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
+import org.codehaus.groovy.grails.web.pages.GroovyPage
+import org.codehaus.groovy.grails.web.taglib.*
+import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
+import org.springframework.web.util.*
+import grails.util.GrailsUtil
+
+class gsp_icbs_loaneditSweepAccount_gsp extends GroovyPage {
+public String getGroovyPageFileName() { "/WEB-INF/grails-app/views/loan/editSweepAccount.gsp" }
+public Object run() {
+Writer out = getOut()
+Writer expressionOut = getExpressionOut()
+registerSitemeshPreprocessMode()
+printHtmlPart(0)
+createTagBody(1, {->
+printHtmlPart(1)
+invokeTag('captureMeta','sitemesh',5,['gsp_sm_xmlClosingForEmptyTag':(""),'name':("layout"),'content':("main")],-1)
+printHtmlPart(1)
+invokeTag('set','g',6,['var':("entityName"),'value':(message(code: 'loan.label', default: 'Loan'))],-1)
+printHtmlPart(1)
+if(true && (module == 'loan')) {
+printHtmlPart(2)
+createTagBody(3, {->
+createClosureForHtmlPart(3, 4)
+invokeTag('captureTitle','sitemesh',8,[:],4)
+})
+invokeTag('wrapTitleTag','sitemesh',8,[:],3)
+printHtmlPart(4)
+}
+printHtmlPart(5)
+createTagBody(2, {->
+printHtmlPart(6)
+expressionOut.print(createLink(controller:'Loan', action:'removeLoanSweepAccountAjax'))
+printHtmlPart(7)
+})
+invokeTag('javascript','g',60,[:],2)
+printHtmlPart(8)
+})
+invokeTag('captureHead','sitemesh',61,[:],1)
+printHtmlPart(9)
+createTagBody(1, {->
+printHtmlPart(10)
+createTagBody(2, {->
+printHtmlPart(11)
+expressionOut.print(loanApplicationInstance?.customer?.displayName)
+printHtmlPart(12)
+expressionOut.print(loanInstance?.accountNo)
+printHtmlPart(13)
+invokeTag('textField','g',65,['name':("loanid"),'id':("loanid"),'value':(params?.id),'style':("display:none")],-1)
+printHtmlPart(14)
+if(true && (flash.message)) {
+printHtmlPart(15)
+expressionOut.print(flash.message)
+printHtmlPart(16)
+}
+printHtmlPart(17)
+invokeTag('set','g',95,['var':("i"),'value':(0)],-1)
+printHtmlPart(18)
+for( sweepAccounts in (session["sweeplist"]) ) {
+printHtmlPart(19)
+expressionOut.print(sweepAccounts?.depositAccount?.acctNo)
+printHtmlPart(20)
+expressionOut.print(sweepAccounts?.depositAccount?.acctName)
+printHtmlPart(20)
+expressionOut.print(sweepAccounts?.type?.description)
+printHtmlPart(20)
+expressionOut.print(sweepAccounts?.rule?.description)
+printHtmlPart(20)
+invokeTag('formatNumber','g',102,['format':("###,###,##0.00"),'number':(sweepAccounts?.savingsComponent)],-1)
+printHtmlPart(21)
+expressionOut.print(sweepAccounts?.remarks)
+printHtmlPart(22)
+invokeTag('hiddenField','g',105,['name':("loanSweepId"),'id':("loanSweepId"),'value':(sweepAccounts?.id)],-1)
+printHtmlPart(23)
+invokeTag('hiddenField','g',106,['name':("loanAccountId"),'id':("loanAccountId"),'value':(params?.id)],-1)
+printHtmlPart(24)
+expressionOut.print(i)
+printHtmlPart(25)
+expressionOut.print(sweepAccounts?.id)
+printHtmlPart(26)
+invokeTag('hiddenField','g',109,['name':("actionPage"),'id':("actionPage"),'value':(session["pageAction"])],-1)
+printHtmlPart(27)
+expressionOut.print(i)
+printHtmlPart(28)
+invokeTag('hiddenField','g',113,['name':("loopcounterId"),'id':("loopcounterId"),'value':(i)],-1)
+printHtmlPart(29)
+invokeTag('field','g',124,['class':("form-control"),'id':("editaccountNo${i}"),'name':("editaccountNo"),'value':(sweepAccounts?.depositAccount?.acctNo),'readonly':("true")],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',125,['id':("editdepositAccount${i}"),'name':("editdepositAccount.id"),'value':(sweepAccount?.depositAccount?.id)],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',126,['id':("editloanIdvalue${i}"),'name':("editloanIdvalue"),'value':(params?.id)],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',127,['id':("editdepositAccountId${i}"),'name':("editdepositAccountId"),'value':(sweepAccounts?.depositAccount?.id)],-1)
+printHtmlPart(30)
+invokeTag('hiddenField','g',128,['id':("loanRecoveryId${i}"),'name':("loanRecoveryId"),'value':(sweepAccounts?.id)],-1)
+printHtmlPart(31)
+expressionOut.print(i)
+printHtmlPart(32)
+invokeTag('select','g',134,['class':("form-control"),'id':("edittype${i}"),'name':("edittype.id"),'from':(icbs.lov.SweepType.list().sort{it.id}),'optionKey':("id"),'optionValue':("description"),'value':(sweepAccounts?.type?.id),'onchange':("updateSweepForm()")],-1)
+printHtmlPart(33)
+invokeTag('select','g',138,['class':("form-control"),'id':("editrule${i}"),'name':("editrule.id"),'from':(icbs.lov.SweepRule.list().sort{it.id}),'optionKey':("id"),'optionValue':("description"),'value':(sweepAccount?.rule?.id),'onchange':("updateSweepForm1('${i}')")],-1)
+printHtmlPart(34)
+expressionOut.print(i)
+printHtmlPart(35)
+invokeTag('field','g',142,['id':("editfundLimitAmt${i}"),'name':("editfundLimitAmt"),'value':(sweepAccounts?.fundLimitAmt),'class':("form-control truncated")],-1)
+printHtmlPart(36)
+expressionOut.print(i)
+printHtmlPart(37)
+invokeTag('field','g',146,['id':("editfundLimitPercentage${i}"),'name':("editfundLimitPercentage"),'value':(sweepAccounts?.fundLimitPercentage),'required':(""),'class':("form-control")],-1)
+printHtmlPart(38)
+invokeTag('field','g',150,['id':("editsavingsComponent${i}"),'name':("editsavingsComponent"),'value':(sweepAccounts?.savingsComponent),'required':(""),'class':("form-control truncated")],-1)
+printHtmlPart(39)
+invokeTag('textArea','g',155,['id':("editremarks${i}"),'name':("remarks"),'cols':("40"),'rows':("5"),'maxlength':("255"),'value':(sweepAccounts?.remarks),'class':("form-control")],-1)
+printHtmlPart(40)
+expressionOut.print(i)
+printHtmlPart(41)
+expressionOut.print(i)
+printHtmlPart(42)
+createTagBody(4, {->
+printHtmlPart(43)
+expressionOut.print(createLink(controller : 'search', action:'search', params:[searchDomain: "deposit"]))
+printHtmlPart(44)
+expressionOut.print(createLink(controller:'Loan', action:'editLoanSweepAccountAjaxx'))
+printHtmlPart(45)
+expressionOut.print(createLink(controller:'loan', action:'showDepositAccountInfo'))
+printHtmlPart(46)
+expressionOut.print(createLink(controller:'Loan', action:'validateDuplicateSweepDepositAcctNoAjax'))
+printHtmlPart(47)
+})
+invokeTag('javascript','g',383,[:],4)
+printHtmlPart(48)
+invokeTag('set','g',390,['var':("i"),'value':(i = i + 1)],-1)
+printHtmlPart(18)
+}
+printHtmlPart(49)
+})
+invokeTag('captureContent','sitemesh',399,['tag':("main-content")],2)
+printHtmlPart(50)
+createTagBody(2, {->
+printHtmlPart(51)
+if(true && (loanInstance?.status.id<7)) {
+printHtmlPart(52)
+}
+printHtmlPart(53)
+expressionOut.print(sweepAccount?.depositAccount?.id)
+printHtmlPart(54)
+invokeTag('field','g',422,['class':("form-control"),'id':("accountNo"),'name':("accountNo"),'value':(sweepAccounts?.depositAccount?.acctNo),'readonly':("true")],-1)
+printHtmlPart(55)
+invokeTag('hiddenField','g',423,['id':("depositAccount"),'name':("depositAccount.id"),'value':(sweepAccount?.depositAccount?.id)],-1)
+printHtmlPart(55)
+invokeTag('hiddenField','g',424,['id':("loanAccountIds"),'name':("loanAccountIds"),'value':(params?.id)],-1)
+printHtmlPart(56)
+invokeTag('select','g',430,['class':("form-control"),'id':("type"),'name':("type.id"),'from':(icbs.lov.SweepType.list().sort{it.id}),'optionKey':("id"),'optionValue':("description"),'value':(""),'onchange':("updateSweepForm()")],-1)
+printHtmlPart(57)
+invokeTag('select','g',434,['class':("form-control"),'id':("addrule"),'name':("rule.id"),'from':(icbs.lov.SweepRule.list().sort{it.id}),'optionKey':("id"),'optionValue':("description"),'value':(""),'onchange':("updateSweepForm();")],-1)
+printHtmlPart(58)
+invokeTag('field','g',438,['id':("fundLimitAmt"),'name':("fundLimitAmt"),'value':(""),'class':("form-control truncated")],-1)
+printHtmlPart(59)
+invokeTag('field','g',442,['id':("fundLimitPercentage"),'name':("fundLimitPercentage"),'value':(""),'required':(""),'class':("form-control")],-1)
+printHtmlPart(60)
+invokeTag('field','g',446,['id':("savingsComponent"),'name':("savingsComponent"),'value':(""),'required':(""),'class':("form-control truncated")],-1)
+printHtmlPart(61)
+invokeTag('textArea','g',450,['id':("remarks"),'name':("remarks"),'cols':("40"),'rows':("5"),'maxlength':("255"),'value':(""),'class':("form-control")],-1)
+printHtmlPart(62)
+createTagBody(3, {->
+printHtmlPart(63)
+expressionOut.print(createLink(controller:'Loan', action:'addLoanSweepAccountAjaxx'))
+printHtmlPart(64)
+expressionOut.print(createLink(controller : 'search', action:'search', params:[searchDomain: "deposit"]))
+printHtmlPart(65)
+expressionOut.print(createLink(controller:'loan', action:'showDepositAccountInfo'))
+printHtmlPart(66)
+expressionOut.print(createLink(controller:'Loan', action:'validateDuplicateSweepDepositAcctNoAjax'))
+printHtmlPart(67)
+})
+invokeTag('javascript','g',664,[:],3)
+printHtmlPart(68)
+})
+invokeTag('captureContent','sitemesh',670,['tag':("main-actions")],2)
+printHtmlPart(69)
+})
+invokeTag('captureBody','sitemesh',672,[:],1)
+printHtmlPart(70)
+}
+public static final Map JSP_TAGS = new HashMap()
+protected void init() {
+	this.jspTags = JSP_TAGS
+}
+public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
+public static final long LAST_MODIFIED = 1570673129053L
+public static final String EXPRESSION_CODEC = 'html'
+public static final String STATIC_CODEC = 'none'
+public static final String OUT_CODEC = 'html'
+public static final String TAGLIB_CODEC = 'none'
+}

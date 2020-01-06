@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2018-10-24T15:54:38 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Order of Payment" pageWidth="396" pageHeight="612" columnWidth="356" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38ca28e8-434f-455c-8f87-1dbd037cdc6e">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Lemery Data Adapter "/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="http://192.168.254.146:8081/jasperserver/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/Express_O_Reports/Loan_Reports/Order_of_Payment_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Express_O_Reports/Loan_Reports/Order_of_Payment"/>
+	<parameter name="PrevTxnFileID" class="java.lang.Integer"/>
+	<parameter name="LatesTxnFileID" class="java.lang.Integer"/>
+	<parameter name="TxnTemplateID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+C.txn_description as "TXN_DESC",
+--I.code as "REM",
+D.display_name as "NAME",
+(select address1 || ' ' || address2 || ' ' || address3 from address where customer_id = D.id) as "ADDRESS",
+A.opening_date as "OPENED",
+A.maturity_date as "DUE",
+B.txn_date as "TXN DATE",
+B.principal_amt as "PRINCIPAL AMT",
+case when C.txn_type_id in (12,14) then B.payment_amt end as "CASH TXN AMT",
+case when C.txn_type_id in (13,15) then B.payment_amt end as "CHECK TXN AMT",
+B.principal_amt + B.interest_amt as "TOTAL TXN AMT",
+upper(replace(replace(replace(cash_words(cast(B.principal_amt + B.interest_amt as numeric)::money),' dollars',''), 'cents',''),' and zero','')) as totalamt_word,
+B.penalty_amt as "PENALTY AMT",
+A.granted_amount as "GRANTED",
+A.interest_rate as "RATE",
+A.adv_interest as "ADV INTEREST",
+A.product_id as "PRODUCT TYPE",
+B.interest_amt as "INTEREST AMOUNT",
+(select principal_bal_after_payment from txn_loan_payment_details where txn_file_id =$P{PrevTxnFileID}) as "PRINCIPAL BALANCE",
+B.principal_bal_after_payment as "PRIN AFTER PAYMENT",
+B.interest_bal_after_payment as "INTEREST BAL AFTER PAYMENT",
+B.penalty_bal_after_payment as "PENALTY AFTER PAYMENT",
+B.principal_bal_after_payment + B.interest_bal_after_payment + B.penalty_bal_after_payment as "TOTAL OUTSTANDING BAL",
+K.description as "FREQ",
+E.description as "STATUS",
+B.txn_file_id as "TRN NO",
+L.short_description as "SHORT DESCRIPTION",
+F.name1 || ' ' || F.name2 || ' ' || F.name3 as "SYSTEM SUPERVISOR",
+F.username as "USERNAME",
+M.name as "BRANCH NAME"
+from loan as A
+inner join (select * from txn_loan_payment_details)as B on A.id = B.acct_id
+inner join (select * from txn_file)as C on A.id = C.loan_acct_id
+inner join (select * from customer)as D on A.customer_id = D.id
+inner join (select * from user_master)as F on C.user_id = F.id
+inner join (select * from loan_acct_status)as E on A.status_id = E.id
+inner join (select * from loan_application)as J on A.loan_application_id = J.id
+--inner join (select * from loan_application_collaterals)as G on J.id = G.loan_application_id
+--inner join (select * from collateral)as H on G.collateral_id = H.id
+--inner join (select * from loan_collateral_type)as I on H.collateral_type_id = I.id
+inner join (select * from loan_installment_freq)as K on A.frequency_id = K.id
+inner join (select * from txn_template)as L on C.txn_template_id = L.id
+inner join (select * from branch) as M on B.branch_id = M.id
+where B.txn_file_id = $P{LatesTxnFileID} and C.txn_template_id = $P{TxnTemplateID}]]>
+	</queryString>
+	<field name="TXN_DESC" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="ADDRESS" class="java.lang.String"/>
+	<field name="OPENED" class="java.sql.Timestamp"/>
+	<field name="DUE" class="java.sql.Timestamp"/>
+	<field name="TXN DATE" class="java.sql.Timestamp"/>
+	<field name="PRINCIPAL AMT" class="java.lang.Double"/>
+	<field name="CASH TXN AMT" class="java.lang.Double"/>
+	<field name="CHECK TXN AMT" class="java.lang.Double"/>
+	<field name="TOTAL TXN AMT" class="java.lang.Double"/>
+	<field name="totalamt_word" class="java.lang.String"/>
+	<field name="PENALTY AMT" class="java.lang.Double"/>
+	<field name="GRANTED" class="java.lang.Double"/>
+	<field name="RATE" class="java.lang.Double"/>
+	<field name="ADV INTEREST" class="java.lang.Double"/>
+	<field name="PRODUCT TYPE" class="java.lang.Long"/>
+	<field name="INTEREST AMOUNT" class="java.lang.Double"/>
+	<field name="PRINCIPAL BALANCE" class="java.lang.Double"/>
+	<field name="PRIN AFTER PAYMENT" class="java.lang.Double"/>
+	<field name="INTEREST BAL AFTER PAYMENT" class="java.lang.Double"/>
+	<field name="PENALTY AFTER PAYMENT" class="java.lang.Double"/>
+	<field name="TOTAL OUTSTANDING BAL" class="java.lang.Double"/>
+	<field name="FREQ" class="java.lang.String"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="TRN NO" class="java.lang.Long"/>
+	<field name="SHORT DESCRIPTION" class="java.lang.String"/>
+	<field name="SYSTEM SUPERVISOR" class="java.lang.String"/>
+	<field name="USERNAME" class="java.lang.String"/>
+	<field name="BRANCH NAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="443">
+			<textField isBlankWhenNull="true">
+				<reportElement x="39" y="79" width="251" height="20" uuid="54d88796-a8bc-4b62-aeba-42c1a24ad052">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="260" y="151" width="90" height="15" uuid="bf9ca44d-98d2-4265-905e-30006fa622d6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{PRINCIPAL AMT})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="260" y="181" width="90" height="15" uuid="997338a5-2688-4d7c-abbf-cdb1ce642e62">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{INTEREST AMOUNT})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="39" y="99" width="251" height="15" uuid="2bfe643d-c744-4638-9aac-edee24bc9be2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalamt_word}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d" isBlankWhenNull="true">
+				<reportElement x="160" y="52" width="100" height="13" uuid="eb415cfd-980b-46f5-9015-fd2804044af7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TXN DATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yy" isBlankWhenNull="true">
+				<reportElement x="251" y="52" width="100" height="13" uuid="fdad78aa-0b53-4abe-80ec-bca66aacdd9d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TXN DATE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="90" y="114" width="90" height="15" uuid="0059fa08-23da-411b-b008-8c28687b4770">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL TXN AMT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="260" y="364" width="90" height="15" uuid="5a081c8d-8200-4f8b-b7a7-c1da35f0e565">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["****"+new DecimalFormat("#,##0.00").format($F{TOTAL TXN AMT})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="80" y="400" width="90" height="15" uuid="5ba541d9-5bb7-40a7-a02b-3e403aec3aac">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["****"+new DecimalFormat("#,##0.00").format($F{CASH TXN AMT})]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="80" y="430" width="90" height="13" uuid="3c44d0b6-e329-4b97-b59f-c5be1957e002">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CHECK TXN AMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2018-10-17T12:23:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PassbookCover" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b32e14bb-8ae1-4f66-8ae9-0058c56551ff">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<parameter name="pbID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+B.passbook_id,
+D.id,
+A.acct_no, 
+A.acct_name,
+E.address1 || ', ' || E.address2 || '' || E.address3 as "ADDRESS",
+C.name,
+G.description as ownership,
+array_to_string(array_agg(I.display_name),', ')as display_name,
+D.passbook_no
+from deposit as A
+inner join customer F on F.id = A.customer_id
+inner join address E on E.customer_id = F.id and E.is_primary = true
+inner join issue_passbook  B on A.id = B.deposit_id
+inner join branch  C on A.branch_id = C.id
+inner join passbook  D on B.id = D.issue_passbook_id
+left join ownership_type G on A.ownership_type_id = G.id
+left join signatory H on H.deposit_id = A.id and H.status_id = 2
+left join customer I on I.id = H.signatory_id
+where cast(D.passbook_no as text) = cast($P{pbID} as text)
+group by B.passbook_id,D.id,A.acct_no, A.acct_name,E.address1,E.address2,E.address3,C.name,G.description,D.passbook_no]]>
+	</queryString>
+	<field name="passbook_id" class="java.lang.Long"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="acct_no" class="java.lang.String"/>
+	<field name="acct_name" class="java.lang.String"/>
+	<field name="ADDRESS" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="ownership" class="java.lang.String"/>
+	<field name="display_name" class="java.lang.String"/>
+	<field name="passbook_no" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="166" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="2" y="45" width="300" height="13" uuid="9d0933a0-61ca-4f7b-9e70-62d77388d9ec">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acct_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="60" width="38" height="22" uuid="1fbec6f7-f65e-4791-96a7-2922433a1be9">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name :  " ]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="104" width="208" height="22" uuid="41ccd7ff-5731-4fe7-abd5-28930d3982a6">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Address :  "+  $F{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="127" width="300" height="13" uuid="3da6d9f0-b6c9-49f3-a806-20a5b11f9cd4">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Branch :  "+ $F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="82" width="210" height="22" uuid="0df5fb8c-b6dc-4c1b-bdd1-75cebc608d05">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ownership}  +": "+ $F{display_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="60" width="170" height="22" uuid="a9655e21-23e2-4605-9588-6ae12f87ce97">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acct_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="46" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

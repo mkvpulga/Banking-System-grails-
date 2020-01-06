@@ -1,0 +1,247 @@
+import icbs.loans.CreditInvestigation
+import icbs.loans.CreditInvestigationBRRHistory
+import icbs.lov.BorrowRiskRating
+import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
+import org.codehaus.groovy.grails.web.pages.GroovyPage
+import org.codehaus.groovy.grails.web.taglib.*
+import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
+import org.springframework.web.util.*
+import grails.util.GrailsUtil
+
+class gsp_icbs_creditInvestigation_details_form_gsp extends GroovyPage {
+public String getGroovyPageFileName() { "/WEB-INF/grails-app/views/creditInvestigation/details/_form.gsp" }
+public Object run() {
+Writer out = getOut()
+Writer expressionOut = getExpressionOut()
+registerSitemeshPreprocessMode()
+printHtmlPart(0)
+printHtmlPart(0)
+printHtmlPart(1)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'loanApplication', 'has-error'))
+printHtmlPart(2)
+invokeTag('message','g',8,['code':("creditInvestigation.loanApplication.label"),'default':("Loan Application")],-1)
+printHtmlPart(3)
+invokeTag('field','g',11,['name':("loanApplication"),'type':("number"),'value':(creditInvestigationInstance?.loanApplication?.id),'class':("form-control"),'readonly':("true")],-1)
+printHtmlPart(4)
+createTagBody(1, {->
+printHtmlPart(5)
+createTagBody(2, {->
+printHtmlPart(6)
+invokeTag('message','g',17,['error':(it)],-1)
+printHtmlPart(7)
+})
+invokeTag('eachError','g',18,['bean':(creditInvestigationInstance),'field':("loanApplication")],2)
+printHtmlPart(8)
+})
+invokeTag('hasErrors','g',21,['bean':(creditInvestigationInstance),'field':("loanApplication")],1)
+printHtmlPart(9)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'ciName', 'has-error'))
+printHtmlPart(10)
+invokeTag('message','g',29,['code':("creditInvestigation.ciName.label"),'default':("Borrower Name")],-1)
+printHtmlPart(11)
+invokeTag('field','g',31,['name':("lnaccountName"),'id':("lnaccountName"),'value':(creditInvestigationInstance?.loanApplication?.customer?.displayName),'disabled':("disable"),'class':("form-control")],-1)
+printHtmlPart(12)
+createTagBody(1, {->
+printHtmlPart(13)
+createTagBody(2, {->
+printHtmlPart(14)
+invokeTag('message','g',37,['error':(it)],-1)
+printHtmlPart(15)
+})
+invokeTag('eachError','g',38,['bean':(creditInvestigationInstance),'field':("ciName")],2)
+printHtmlPart(16)
+})
+invokeTag('hasErrors','g',41,['bean':(creditInvestigationInstance),'field':("ciName")],1)
+printHtmlPart(17)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'lnGrantedAmount', 'has-error'))
+printHtmlPart(18)
+invokeTag('message','g',46,['code':("creditInvestigation.lnGrantedAmount.label"),'default':("Granted Amount")],-1)
+printHtmlPart(11)
+invokeTag('field','g',48,['name':("lnGrantedAmount"),'id':("lnGrantedAmount"),'value':(creditInvestigationInstance?.loanApplication?.amount),'disabled':("disable"),'class':("form-control truncated")],-1)
+printHtmlPart(12)
+createTagBody(1, {->
+printHtmlPart(13)
+createTagBody(2, {->
+printHtmlPart(14)
+invokeTag('message','g',54,['error':(it)],-1)
+printHtmlPart(15)
+})
+invokeTag('eachError','g',55,['bean':(creditInvestigationInstance),'field':("lnGrantedAmount")],2)
+printHtmlPart(16)
+})
+invokeTag('hasErrors','g',58,['bean':(creditInvestigationInstance),'field':("lnGrantedAmount")],1)
+printHtmlPart(17)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'lnApplicationDate', 'has-error'))
+printHtmlPart(19)
+invokeTag('message','g',63,['code':("creditInvestigation.lnApplicationDate.label"),'default':("Loan Application Date")],-1)
+printHtmlPart(20)
+invokeTag('customDatePicker','g',66,['name':("lnApplicationDate"),'id':("lnApplicationDate"),'precision':("day"),'class':("form-control"),'disabled':("disable"),'value':(creditInvestigationInstance?.loanApplication?.applicationDate)],-1)
+printHtmlPart(21)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',71,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',72,['bean':(creditInvestigationInstance),'field':("lnApplicationDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',75,['bean':(creditInvestigationInstance),'field':("lnApplicationDate")],1)
+printHtmlPart(26)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'recommendation', 'has-error'))
+printHtmlPart(27)
+invokeTag('message','g',81,['code':("creditInvestigation.recommendation.label"),'default':("Recommendation")],-1)
+printHtmlPart(28)
+invokeTag('textArea','g',83,['name':("recommendation"),'cols':("40"),'rows':("5"),'maxlength':("255"),'value':(creditInvestigationInstance?.recommendation),'class':("form-control")],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',89,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',90,['bean':(creditInvestigationInstance),'field':("recommendation")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',93,['bean':(creditInvestigationInstance),'field':("recommendation")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'ciScheduleDate', 'has-error'))
+printHtmlPart(31)
+invokeTag('message','g',99,['code':("creditInvestigation.ciScheduleDate.label"),'default':("CI Schedule Date")],-1)
+printHtmlPart(32)
+invokeTag('customDatePicker','g',102,['name':("ciScheduleDate"),'precision':("day"),'class':("form-control"),'value':(creditInvestigationInstance?.ciScheduleDate)],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',108,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',109,['bean':(creditInvestigationInstance),'field':("ciScheduleDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',112,['bean':(creditInvestigationInstance),'field':("ciScheduleDate")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'ciName', 'has-error'))
+printHtmlPart(33)
+invokeTag('message','g',118,['code':("creditInvestigation.ciName.label"),'default':("CI Name")],-1)
+printHtmlPart(28)
+invokeTag('field','g',120,['name':("ciName"),'value':(creditInvestigationInstance?.ciName),'class':("form-control")],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',126,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',127,['bean':(creditInvestigationInstance),'field':("ciName")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',130,['bean':(creditInvestigationInstance),'field':("ciName")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'ciExecutionDate', 'has-error'))
+printHtmlPart(34)
+invokeTag('message','g',136,['code':("creditInvestigation.ciExecutionDate.label"),'default':("CI Execution Date")],-1)
+printHtmlPart(32)
+invokeTag('customDatePicker','g',139,['name':("ciExecutionDate"),'precision':("day"),'class':("form-control"),'value':(creditInvestigationInstance?.ciExecutionDate)],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',145,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',146,['bean':(creditInvestigationInstance),'field':("ciExecutionDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',149,['bean':(creditInvestigationInstance),'field':("ciExecutionDate")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'appraisalDate', 'has-error'))
+printHtmlPart(35)
+invokeTag('message','g',155,['code':("creditInvestigation.appraisalDate.label"),'default':("Appraisal Date")],-1)
+printHtmlPart(36)
+invokeTag('customDatePicker','g',157,['name':("appraisalDate"),'precision':("day"),'class':("form-control"),'value':(creditInvestigationInstance?.appraisalDate)],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',163,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',164,['bean':(creditInvestigationInstance),'field':("appraisalDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',167,['bean':(creditInvestigationInstance),'field':("appraisalDate")],1)
+printHtmlPart(37)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'appraisedBy', 'has-error'))
+printHtmlPart(38)
+invokeTag('message','g',172,['code':("creditInvestigation.appraisedBy.label"),'default':("Appraised By")],-1)
+printHtmlPart(36)
+invokeTag('field','g',174,['name':("appraisedBy"),'value':(creditInvestigationInstance?.appraisedBy),'class':("form-control")],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',180,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',181,['bean':(creditInvestigationInstance),'field':("appraisedBy")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',184,['bean':(creditInvestigationInstance),'field':("appraisedBy")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'appraExeDate', 'has-error'))
+printHtmlPart(39)
+invokeTag('message','g',190,['code':("creditInvestigation.appraExeDate.label"),'default':("Appraisal Execution Date")],-1)
+printHtmlPart(40)
+invokeTag('customDatePicker','g',193,['name':("appraExeDate"),'precision':("day"),'class':("form-control"),'value':(creditInvestigationInstance?.appraExeDate)],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',199,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',200,['bean':(creditInvestigationInstance),'field':("appraExeDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',203,['bean':(creditInvestigationInstance),'field':("appraExeDate")],1)
+printHtmlPart(41)
+expressionOut.print(hasErrors(bean: creditInvestigationInstance, field: 'loanAnalysisScheduleDate', 'has-error'))
+printHtmlPart(42)
+invokeTag('message','g',210,['code':("creditInvestigation.loanAnalysisScheduleDate.label"),'default':("Loan Analysis Schedule Date")],-1)
+printHtmlPart(32)
+invokeTag('customDatePicker','g',213,['name':("loanAnalysisScheduleDate"),'precision':("day"),'class':("form-control"),'value':(creditInvestigationInstance?.loanAnalysisScheduleDate)],-1)
+printHtmlPart(29)
+createTagBody(1, {->
+printHtmlPart(22)
+createTagBody(2, {->
+printHtmlPart(23)
+invokeTag('message','g',219,['error':(it)],-1)
+printHtmlPart(24)
+})
+invokeTag('eachError','g',220,['bean':(creditInvestigationInstance),'field':("loanAnalysisScheduleDate")],2)
+printHtmlPart(25)
+})
+invokeTag('hasErrors','g',223,['bean':(creditInvestigationInstance),'field':("loanAnalysisScheduleDate")],1)
+printHtmlPart(43)
+}
+public static final Map JSP_TAGS = new HashMap()
+protected void init() {
+	this.jspTags = JSP_TAGS
+}
+public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
+public static final long LAST_MODIFIED = 1570673128108L
+public static final String EXPRESSION_CODEC = 'html'
+public static final String STATIC_CODEC = 'none'
+public static final String OUT_CODEC = 'html'
+public static final String TAGLIB_CODEC = 'none'
+}

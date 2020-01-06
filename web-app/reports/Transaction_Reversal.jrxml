@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2017-09-19T00:42:51 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ValidationSlip" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10" uuid="018d0e2f-f7c3-48b5-9e66-2ad9e2cc78ac">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="net.sf.jasperreports.default.font.name" value="Courier New"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LOCAL DATA ADAPTER"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="/Express_O_Reports/Tellering_Reports/ValidationSlip_files/TransactionReversalSlip"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/Express_O_Reports/Tellering_Reports/ValidationSlip_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Express_O_Reports/Deposit_Reports/ValidationSlip"/>
+	<parameter name="txnID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select 	txnFile.acct_no,
+	deposit.acct_name,
+	txnFile.txn_date,
+	txnFile.txn_timestamp,
+	txnBreakdown.id,
+	txnFile.txn_description,
+	case when txnFile.txn_type_id = 9 then (select glac.short_name from gl_account glac where glac.code = txnBreakdown.debit_acct limit 1)
+	     when txnFile.txn_type_id = 7 then (select glac.short_name from gl_account glac where glac.code = txnBreakdown.credit_acct limit 1)
+	end as gl_name,
+	case when txnFile.txn_type_id = 9 then (select glac.code from gl_account glac where glac.code = txnBreakdown.debit_acct limit 1)
+	     when txnFile.txn_type_id = 7 then (select glac.code from gl_account glac where glac.code = txnBreakdown.credit_acct limit 1)
+	end as gl_code,
+	txnBreakdown.debit_amt,
+	txnBreakdown.credit_amt,
+	txnFile.currency_id,
+	userMaster.username,
+	txnFile.txn_type_id
+from txn_file txnFile
+inner join txn_breakdown txnBreakdown on txnFile.id = txnBreakdown.txn_file_id
+inner join user_master userMaster on userMaster.id = txnFile.user_id
+inner join branch branch on branch.id = txnFile.branch_id
+inner join currency currency on currency.id = txnFile.currency_id
+inner join deposit deposit on deposit.id = txnFile.dep_acct_id
+where txn_file_id = $P{txnID}
+order by txnBreakdown.id]]>
+	</queryString>
+	<field name="acct_no" class="java.lang.String"/>
+	<field name="acct_name" class="java.lang.String"/>
+	<field name="txn_date" class="java.sql.Timestamp"/>
+	<field name="txn_timestamp" class="java.sql.Timestamp"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="txn_description" class="java.lang.String"/>
+	<field name="gl_name" class="java.lang.String"/>
+	<field name="gl_code" class="java.lang.String"/>
+	<field name="debit_amt" class="java.lang.Double"/>
+	<field name="credit_amt" class="java.lang.Double"/>
+	<field name="currency_id" class="java.lang.Long"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="txn_type_id" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="555" height="30" uuid="6fc273c9-47a1-4486-984e-5b55e45e2ae2"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transaction Reversal Slip]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="97">
+			<textField>
+				<reportElement x="0" y="1" width="280" height="17" uuid="3455fd5e-c470-440c-9f62-16f34b73de92">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[IF($F{txn_type_id} == 7,$F{acct_name},$F{gl_name})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="18" width="80" height="17" uuid="d8644e19-4728-4c95-9828-cbc339a87135">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yy">
+				<reportElement x="81" y="18" width="100" height="17" uuid="e3e6999e-ba54-4c98-8a47-41d6c96478c8">
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($F{txn_date})]]></textFieldExpression>
+			</textField>
+			<textField pattern="hh:mm:s a">
+				<reportElement x="181" y="18" width="99" height="17" uuid="0a9921d1-cbbf-4e8a-8a90-50bf214dde70">
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm:ss a").format($F{txn_timestamp})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="35" width="279" height="17" uuid="b89ae625-d4d0-4f2b-bfb9-e91c6d8ed176">
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txn_description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1" y="52" width="199" height="17" uuid="5e840c41-6b86-4c4b-aa61-8fee6fe524e2">
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currency_id} == 1 ? "PHP* * * * *"+new DecimalFormat("#,##0.00").format($F{debit_amt}) : "USD* * * * *"+new DecimalFormat("#,##0.00").format($F{debit_amt})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="52" width="80" height="17" uuid="3b193924-fd7b-4cea-9e80-960c40ee77be">
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="69" width="279" height="17" uuid="291e1173-5a11-4b9f-9a07-579b54517127">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{credit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[IF($F{txn_type_id} == 7,$F{acct_no},$F{gl_code})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="12" width="280" height="17" uuid="17785e44-bea4-4dc2-a389-cb1f27adf6d3">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[IF($F{txn_type_id} == 9,$F{acct_name},$F{gl_name})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="29" width="80" height="17" uuid="ffc35438-1574-4233-803a-99097aaa1599">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yy">
+				<reportElement x="81" y="29" width="100" height="17" uuid="37f61713-c310-4a6f-b010-d38e13f81a5f">
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format($F{txn_date})]]></textFieldExpression>
+			</textField>
+			<textField pattern="hh:mm:s a">
+				<reportElement x="181" y="29" width="99" height="17" uuid="9bfeafe9-fea6-40dd-b703-7ef96ed04e46">
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm:ss a").format($F{txn_timestamp})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="46" width="279" height="17" uuid="cb2588dc-0ff0-4f36-81f6-e9684b14b6ac">
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txn_description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="1" y="63" width="199" height="17" uuid="0429f6c3-d1d0-47ea-b6e0-2ff022dadc40">
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currency_id} == 1 ? "PHP* * * * *"+new DecimalFormat("#,##0.00").format($F{credit_amt}) : "USD* * * * *"+new DecimalFormat("#,##0.00").format($F{credit_amt})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="63" width="80" height="17" uuid="9b1889ed-cb00-4802-9530-2992d1a2b667">
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="80" width="279" height="17" uuid="d229e23b-9e2d-4802-9503-2b1800d89f47">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{debit_amt} == null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Courier New" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[IF($F{txn_type_id} == 9,$F{acct_no},$F{gl_code})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

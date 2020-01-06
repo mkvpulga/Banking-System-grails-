@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2018-02-07T13:36:02 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ValidationSlip" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10" uuid="018d0e2f-f7c3-48b5-9e66-2ad9e2cc78ac">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<property name="net.sf.jasperreports.default.font.name" value="Courier New"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LOCAL DATA ADAPTER"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.jasperserver.url" value="/Express_O_Reports/Tellering_Reports/ValidationSlip_files/TransactionReversalSlip"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/Express_O_Reports/Tellering_Reports/ValidationSlip_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Express_O_Reports/Deposit_Reports/ValidationSlip"/>
+	<parameter name="txnID" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select 	
+	txnFile.id,
+	txnFile.acct_no,
+	deposit.acct_name,
+	txnFile.txn_date,
+	txnFile.txn_timestamp,
+	txn_reversal.txn_reference,
+	userMaster.username,
+	txnFile.txn_type_id,
+	'TXN REV - ' as code,
+	txnFile.txn_amt,
+	txnFile.currency_id
+from txn_file txnFile
+inner join user_master userMaster on userMaster.id = txnFile.user_id
+inner join branch branch on branch.id = txnFile.branch_id
+left join deposit deposit on deposit.id = txnFile.dep_acct_id
+left join txn_reversal on txn_reversal.txn_file_id = txnFile.id
+where  txnFile.id = $P{txnID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="acct_no" class="java.lang.String"/>
+	<field name="acct_name" class="java.lang.String"/>
+	<field name="txn_date" class="java.sql.Timestamp"/>
+	<field name="txn_timestamp" class="java.sql.Timestamp"/>
+	<field name="txn_reference" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="txn_type_id" class="java.lang.Long"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="txn_amt" class="java.lang.Double"/>
+	<field name="currency_id" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="279" height="20" uuid="6fc273c9-47a1-4486-984e-5b55e45e2ae2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transaction Reversal Slip]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="20" width="279" height="17" uuid="21bc818c-7608-4650-9827-d73dfed51c64"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acct_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="1" y="37" width="79" height="17" uuid="42d9b92f-0029-4e91-8ae8-6cd38beb3e6e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM-dd-yyyy" isBlankWhenNull="true">
+				<reportElement x="80" y="37" width="100" height="17" uuid="8c9c74a2-35c0-4af6-b2ea-ec4bb7897c7e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txn_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss a" isBlankWhenNull="true">
+				<reportElement x="180" y="37" width="100" height="17" uuid="b27d2a7f-f524-48f1-b5d2-8a4ea6093b6f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{txn_timestamp}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="1" y="71" width="199" height="17" uuid="e54d73e9-ff65-463d-be44-2e53f8dee368"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currency_id} == 1 ? "PHP* * * * *"+new DecimalFormat("#,##0.00").format($F{txn_amt}) : "USD* * * * *"+new DecimalFormat("#,##0.00").format($F{txn_amt})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="71" width="80" height="17" uuid="7d2fb0d0-a619-4c20-b72c-8b7838ef0abe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="88" width="279" height="17" uuid="02a1c866-202f-4cad-bae6-7f8d533422c0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acct_no}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="1" y="54" width="279" height="17" uuid="c5bf82a2-90b1-4b5a-ad97-57d6b0123013"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code} + $F{txn_reference}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

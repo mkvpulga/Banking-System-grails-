@@ -1,0 +1,364 @@
+package icbs.loans
+
+import icbs.admin.UserMaster
+import icbs.lov.CreditInvestigationChecklistType
+
+class CreditInvestigation {
+    LoanApplication loanApplication
+    String recommendation
+    String appraisedBy
+    Date appraisalDate
+    Date appraExeDate
+    Date dateCreated
+    Date ciScheduleDate
+    Date ciExecutionDate
+    Date loanAnalysisScheduleDate
+    Date loanAnalysisExecutionDate
+    Date creditComADate
+    Date creditComBDate
+    Date approvalDate
+    String ciName
+    String analysName
+    String remarks
+    CreditInvestigationChecklistType checklisttype
+    Double borrowerRiskRating
+    //using in checklist values
+    boolean formA1
+    boolean formA2
+    boolean formA3
+    boolean formA4
+    boolean formA5
+    boolean formA6
+    boolean formA7
+    boolean formA8
+    boolean formA9
+    boolean formA10
+    boolean formA11
+    boolean formB1
+    boolean formB2
+    boolean formB3
+    boolean formB4
+    boolean formB5
+    boolean formB6
+    boolean formB7
+    boolean formB8
+    boolean formB9
+    boolean formB10
+    boolean formB11
+    boolean formB12
+    boolean formB13
+    boolean formB14
+    boolean formB15
+    boolean formB16
+    boolean formB17
+    boolean formB18
+    boolean formC1
+    boolean formC2
+    boolean formC3
+    boolean formC4
+    boolean formC5
+    boolean formC6
+    boolean formC7
+    boolean formC8
+    boolean formC9
+    boolean formC10
+    boolean formC11
+    boolean formC12
+    boolean formC13
+    boolean formC14
+    boolean formC15
+    boolean formC16
+    boolean formC17
+    boolean formC18
+    boolean formC19
+    boolean formC20
+    boolean formC21
+    boolean formC22
+    boolean formC23
+    boolean formC24
+    boolean formC25
+    boolean formC26
+    boolean formC27
+    boolean formC28
+    boolean formC29
+    boolean formC30
+    boolean formC31
+    boolean formC32
+    boolean formC33
+    boolean formC34
+    boolean formC35
+    //mf prefix stands for micro finance type of credit investigation
+    boolean mfChecklist
+    boolean mfAppWithIdPic
+    boolean mfValidId
+    boolean mfProofOfIncome
+    boolean mfPaidUtilityBills
+    boolean mfBrgyClearance
+    boolean mfBusinessClearance
+    boolean mfCiForm
+    boolean mfCashFlowAnalysis
+    boolean mfCallReport
+    boolean mfConfimationSavingsBalance
+    boolean mfBankStatement
+    boolean mfClientStatusReport
+    boolean mfComakerStatement
+    boolean mfComakerValidId
+    boolean mfComakerIdPicture
+    boolean mfCvs //for change AVS -> Affidavit of Voluntary Surrender
+    boolean mfChattelMortgageContract
+    boolean mfAcknowlegementOfReceipt
+    boolean mfCertOfOwnership
+    boolean mfPicOfCollateral
+    boolean mfDeedOfAssignment
+    boolean mfInspectionSlip
+    boolean mfAda
+    boolean mfPioneerInsurance
+    boolean mfDs
+    boolean mfPn
+    //rg prefix stands for regular type of credit investigation
+    boolean rgLoanApp
+    boolean rgBrr
+    boolean rgItrBir
+    boolean rgFs
+    boolean rgBusinessPermit
+    boolean rgPicOfBusiness
+    boolean rgSalesAndPurchaseJournal
+    boolean rgCertOfEmployment
+    boolean rgPayslip
+    boolean rgProofOfRemittance
+    boolean rgBankStatement
+    boolean rgSecRegistration
+    boolean rgCiTools
+    boolean rgValidId
+    boolean rgBrgyClearance
+    boolean rgBirthCert
+    boolean rgProofOfBilling
+    boolean rgNfisReport
+    boolean rgAppraisalReport
+    boolean rgApprovedPlan
+    boolean rgTrueCopyOfTitle
+    boolean rgOthers
+    boolean rgCctNo
+    boolean rgRealEstateTaxReceipt
+    boolean rgRemContract
+    boolean rgSpa
+    boolean rgReleaseOfMortgage
+    boolean rgPetitionToCancel
+    boolean rgRegOthers
+    boolean rgDsOrPn
+    boolean rgAuthorization
+    boolean rgMriLifeInsurance
+    boolean rgFireInsurance
+    boolean rgEirComputation
+    boolean rgScheduleOfPayment
+    boolean rgModeOfPayment
+    boolean rgRelOthers
+    //sl prefix stands for Salary loan type of credit investigation
+    boolean slLoanApp
+    boolean slMaxLoanAmountComputation
+    boolean slCertFromHrDept
+    boolean slDeedOfAssignment
+    boolean slHospitalBill
+    boolean slTctNo
+    boolean slTaxDeclaration
+    boolean slRealEstateTax
+    boolean slCertOfNonTaxDeliquency
+    boolean slSpa
+    boolean slApprovedRequisitionSlip
+    boolean slPn
+    boolean slDs
+    boolean slTruthLendingStatement
+    boolean slRem
+    boolean slCmMaxLoanAmountComputation
+    boolean slCmCertFromHrDept
+    boolean slCmDeedOfAssignment
+    boolean slCmValidId
+    boolean slCmLatestPaySlip
+    
+    static hasMany = [attachments: LoanAttachment]
+
+    static constraints = {
+        checklisttype nullable:true    
+	loanApplication nullable: false
+    	recommendation maxSize:255, nullable:true
+        appraisedBy nullable:true
+        appraisalDate nullable:true
+        dateCreated nullable:false
+        ciScheduleDate nullable:true
+        ciExecutionDate nullable:true
+        loanAnalysisScheduleDate nullable:true
+        loanAnalysisExecutionDate nullable:true
+        creditComADate nullable:true
+        creditComBDate nullable:true
+        ciName nullable:true
+        analysName nullable:true
+        approvalDate nullable:true
+        appraExeDate nullable:true
+        borrowerRiskRating nullable:true, scale:1, min:10.0D, max:100.0D
+        
+        //using in checklist values
+        remarks nullable:true, size: 0..15000
+        formA1 nullable:true
+        formA2 nullable:true
+        formA3 nullable:true
+        formA4 nullable:true
+        formA5 nullable:true
+        formA6 nullable:true
+        formA7 nullable:true
+        formA8 nullable:true
+        formA9 nullable:true
+        formA10 nullable:true
+        formA11 nullable:true
+        formB1 nullable:true
+        formB2 nullable:true
+        formB3 nullable:true
+        formB4 nullable:true
+        formB5 nullable:true
+        formB6 nullable:true
+        formB7 nullable:true
+        formB8 nullable:true
+        formB9 nullable:true
+        formB10 nullable:true
+        formB11 nullable:true
+        formB12 nullable:true
+        formB13 nullable:true
+        formB14 nullable:true
+        formB15 nullable:true
+        formB16 nullable:true
+        formB17 nullable:true
+        formB18 nullable:true
+        formC1 nullable:true
+        formC2 nullable:true
+        formC3 nullable:true
+        formC4 nullable:true
+        formC5 nullable:true
+        formC6 nullable:true
+        formC7 nullable:true
+        formC8 nullable:true
+        formC9 nullable:true
+        formC10 nullable:true
+        formC11 nullable:true
+        formC12 nullable:true
+        formC13 nullable:true
+        formC14 nullable:true
+        formC15 nullable:true
+        formC16 nullable:true
+        formC17 nullable:true
+        formC18 nullable:true
+        formC19 nullable:true
+        formC20 nullable:true
+        formC21 nullable:true
+        formC22 nullable:true
+        formC23 nullable:true
+        formC24 nullable:true
+        formC25 nullable:true
+        formC26 nullable:true
+        formC27 nullable:true
+        formC28 nullable:true
+        formC29 nullable:true
+        formC30 nullable:true
+        formC31 nullable:true
+        formC32 nullable:true
+        formC33 nullable:true
+        formC34 nullable:true
+        formC35 nullable:true
+        mfChecklist nullable:true
+        mfAppWithIdPic nullable:true
+        mfValidId nullable:true
+        mfProofOfIncome nullable:true
+        mfPaidUtilityBills nullable:true
+        mfBrgyClearance nullable:true
+        mfBusinessClearance nullable:true
+        mfCiForm nullable:true
+        mfCashFlowAnalysis nullable:true
+        mfCallReport nullable:true
+        mfConfimationSavingsBalance nullable:true
+        mfBankStatement nullable:true
+        mfClientStatusReport nullable:true
+        mfComakerStatement nullable:true
+        mfComakerValidId nullable:true
+        mfComakerIdPicture nullable:true
+        mfCvs nullable:true
+        mfChattelMortgageContract nullable:true
+        mfAcknowlegementOfReceipt nullable:true
+        mfCertOfOwnership nullable:true
+        mfPicOfCollateral nullable:true
+        mfDeedOfAssignment nullable:true
+        mfInspectionSlip nullable:true
+        mfAda nullable:true
+        mfPioneerInsurance nullable:true
+        mfDs nullable:true
+        mfPn nullable:true
+        rgLoanApp nullable:true
+        rgBrr nullable:true
+        rgItrBir nullable:true
+        rgFs nullable:true
+        rgBusinessPermit nullable:true
+        rgPicOfBusiness nullable:true
+        rgSalesAndPurchaseJournal nullable:true
+        rgCertOfEmployment nullable:true
+        rgPayslip nullable:true
+        rgProofOfRemittance nullable:true
+        rgBankStatement nullable:true
+        rgSecRegistration nullable:true
+        rgCiTools nullable:true
+        rgValidId nullable:true
+        rgBrgyClearance nullable:true
+        rgBirthCert nullable:true
+        rgProofOfBilling nullable:true
+        rgNfisReport nullable:true
+        rgAppraisalReport nullable:true
+        rgApprovedPlan nullable:true
+        rgTrueCopyOfTitle nullable:true
+        rgOthers nullable:true
+        rgCctNo nullable:true
+        rgRealEstateTaxReceipt nullable:true
+        rgRemContract nullable:true
+        rgSpa nullable:true
+        rgReleaseOfMortgage nullable:true
+        rgPetitionToCancel nullable:true
+        rgRegOthers nullable:true
+        rgDsOrPn nullable:true
+        rgAuthorization nullable:true
+        rgMriLifeInsurance nullable:true
+        rgFireInsurance nullable:true
+        rgEirComputation nullable:true
+        rgScheduleOfPayment nullable:true
+        rgModeOfPayment nullable:true
+        rgRelOthers nullable:true
+        slLoanApp nullable:true
+        slMaxLoanAmountComputation nullable:true
+        slCertFromHrDept nullable:true
+        slDeedOfAssignment nullable:true
+        slHospitalBill nullable:true
+        slTctNo nullable:true
+        slTaxDeclaration nullable:true
+        slRealEstateTax nullable:true
+        slCertOfNonTaxDeliquency nullable:true
+        slSpa nullable:true
+        slApprovedRequisitionSlip nullable:true
+        slPn nullable:true
+        slDs nullable:true
+        slTruthLendingStatement nullable:true
+        slRem nullable:true
+        slCmMaxLoanAmountComputation nullable:true
+        slCmCertFromHrDept nullable:true
+        slCmDeedOfAssignment nullable:true
+        slCmValidId nullable:true
+        slCmLatestPaySlip nullable:true
+        
+        
+        
+        
+    }
+
+    static mapping = {
+    	id sqlType: "int", generator: "increment"
+    	loanApplication sqlType: "int"
+        remarks    sqlType: 'text' 
+    }
+
+    def beforeValidate(){
+        dateCreated = new Date()
+    }
+}

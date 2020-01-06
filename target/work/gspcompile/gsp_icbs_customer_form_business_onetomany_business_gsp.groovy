@@ -1,0 +1,220 @@
+import org.codehaus.groovy.grails.plugins.metadata.GrailsPlugin
+import org.codehaus.groovy.grails.web.pages.GroovyPage
+import org.codehaus.groovy.grails.web.taglib.*
+import org.codehaus.groovy.grails.web.taglib.exceptions.GrailsTagException
+import org.springframework.web.util.*
+import grails.util.GrailsUtil
+
+class gsp_icbs_customer_form_business_onetomany_business_gsp extends GroovyPage {
+public String getGroovyPageFileName() { "/WEB-INF/grails-app/views/customer/form/business/onetomany/_business.gsp" }
+public Object run() {
+Writer out = getOut()
+Writer expressionOut = getExpressionOut()
+registerSitemeshPreprocessMode()
+printHtmlPart(0)
+printHtmlPart(1)
+expressionOut.print(i)
+printHtmlPart(2)
+if(true && (business?.id)) {
+printHtmlPart(3)
+invokeTag('hiddenField','g',11,['name':("businesses[${i}].id"),'value':(business?.id)],-1)
+printHtmlPart(4)
+invokeTag('hiddenField','g',12,['name':("businesses[${i}].new"),'value':("false")],-1)
+printHtmlPart(5)
+}
+else {
+printHtmlPart(4)
+invokeTag('hiddenField','g',15,['name':("businesses[${i}].new"),'value':("true")],-1)
+printHtmlPart(5)
+}
+printHtmlPart(5)
+invokeTag('hiddenField','g',17,['name':("businesses[${i}].deleted"),'value':("false")],-1)
+printHtmlPart(6)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].name', 'has-error'))
+printHtmlPart(7)
+expressionOut.print(i)
+printHtmlPart(8)
+invokeTag('message','g',21,['code':("business.name.label"),'default':("Name")],-1)
+printHtmlPart(9)
+invokeTag('textField','g',26,['name':("businesses[${i}].name"),'maxlength':("50"),'value':(business?.name),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',31,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',32,['bean':(customerInstance),'field':("businesses[${i}].name")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',35,['bean':(customerInstance),'field':("businesses[${i}].name")],1)
+printHtmlPart(15)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].address1', 'has-error'))
+printHtmlPart(16)
+expressionOut.print(i)
+printHtmlPart(17)
+invokeTag('message','g',40,['code':("business.address.label"),'default':("Address")],-1)
+printHtmlPart(18)
+invokeTag('textField','g',44,['placeholder':("Room No./Office Name,/Bldg./HouseNo.,Street,Subd./Brgy."),'name':("businesses[${i}].address1"),'maxlength':("50"),'value':(business?.address1),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',49,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',50,['bean':(customerInstance),'field':("businesses[${i}].address1")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',53,['bean':(customerInstance),'field':("businesses[${i}].address1")],1)
+printHtmlPart(15)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].address2', 'has-error'))
+printHtmlPart(16)
+expressionOut.print(i)
+printHtmlPart(19)
+invokeTag('textField','g',61,['placeholder':("District, Town, City"),'name':("businesses[${i}].address2"),'maxlength':("50"),'value':(business?.address2),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',66,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',67,['bean':(customerInstance),'field':("businesses[${i}].address2")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',70,['bean':(customerInstance),'field':("businesses[${i}].address2")],1)
+printHtmlPart(15)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].address3', 'has-error'))
+printHtmlPart(16)
+expressionOut.print(i)
+printHtmlPart(20)
+invokeTag('textField','g',78,['placeholder':("Province,Country,ZIP"),'name':("businesses[${i}].address3"),'maxlength':("30"),'value':(business?.address3),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',83,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',84,['bean':(customerInstance),'field':("businesses[${i}].address3")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',87,['bean':(customerInstance),'field':("businesses[${i}].address3")],1)
+printHtmlPart(21)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].lProject', 'has-error'))
+printHtmlPart(22)
+expressionOut.print(i)
+printHtmlPart(23)
+invokeTag('message','g',98,['code':("business.region.label"),'default':("Economic Activity")],-1)
+printHtmlPart(24)
+invokeTag('select','g',101,['name':("businesses[${i}].lProject.id"),'from':(icbs.lov.LoanProject.list()),'optionKey':("id"),'value':(business?.lProject?.id),'class':("form-control")],-1)
+printHtmlPart(25)
+createTagBody(1, {->
+printHtmlPart(26)
+createTagBody(2, {->
+printHtmlPart(27)
+invokeTag('message','g',106,['error':(it)],-1)
+printHtmlPart(28)
+})
+invokeTag('eachError','g',107,['bean':(customerInstance),'field':("businesses[${i}].lProject")],2)
+printHtmlPart(29)
+})
+invokeTag('hasErrors','g',110,['bean':(customerInstance),'field':("businesses[${i}].lProject")],1)
+printHtmlPart(30)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].contactNo', 'has-error'))
+printHtmlPart(16)
+expressionOut.print(i)
+printHtmlPart(31)
+invokeTag('message','g',116,['code':("business.contactNo.label"),'default':("Contact No")],-1)
+printHtmlPart(32)
+invokeTag('textField','g',120,['name':("businesses[${i}].contactNo"),'maxlength':("50"),'value':(business?.contactNo),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',125,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',126,['bean':(customerInstance),'field':("businesses[${i}].contactNo")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',129,['bean':(customerInstance),'field':("businesses[${i}].contactNo")],1)
+printHtmlPart(33)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].faxNo', 'has-error'))
+printHtmlPart(34)
+expressionOut.print(i)
+printHtmlPart(35)
+invokeTag('message','g',136,['code':("business.faxNo.label"),'default':("Fax No")],-1)
+printHtmlPart(32)
+invokeTag('textField','g',140,['name':("businesses[${i}].faxNo"),'maxlength':("50"),'value':(business?.faxNo),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',145,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',146,['bean':(customerInstance),'field':("businesses[${i}].faxNo")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',149,['bean':(customerInstance),'field':("businesses[${i}].faxNo")],1)
+printHtmlPart(33)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].registrationDate', 'has-error'))
+printHtmlPart(34)
+expressionOut.print(i)
+printHtmlPart(36)
+invokeTag('message','g',156,['code':("business.registrationDate.label"),'default':("Registration Date")],-1)
+printHtmlPart(32)
+invokeTag('customDatePicker','g',160,['name':("businesses[${i}].registrationDate"),'maxlength':("50"),'value':(business?.registrationDate),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',165,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',166,['bean':(customerInstance),'field':("businesses[${i}].registrationDate")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',169,['bean':(customerInstance),'field':("businesses[${i}].registrationDate")],1)
+printHtmlPart(33)
+expressionOut.print(hasErrors(bean: customerInstance, field: 'businesses['+i+'].eMail', 'has-error'))
+printHtmlPart(16)
+expressionOut.print(i)
+printHtmlPart(37)
+invokeTag('message','g',176,['code':("business.eMail.label"),'default':("E Mail")],-1)
+printHtmlPart(32)
+invokeTag('textField','g',180,['name':("businesses[0].eMail"),'maxlength':("50"),'value':(business?.eMail),'class':("form-control")],-1)
+printHtmlPart(10)
+createTagBody(1, {->
+printHtmlPart(11)
+createTagBody(2, {->
+printHtmlPart(12)
+invokeTag('message','g',185,['error':(it)],-1)
+printHtmlPart(13)
+})
+invokeTag('eachError','g',186,['bean':(customerInstance),'field':("businesses[${i}].eMail")],2)
+printHtmlPart(14)
+})
+invokeTag('hasErrors','g',189,['bean':(customerInstance),'field':("businesses[${i}].eMail")],1)
+printHtmlPart(38)
+}
+public static final Map JSP_TAGS = new HashMap()
+protected void init() {
+	this.jspTags = JSP_TAGS
+}
+public static final String CONTENT_TYPE = 'text/html;charset=UTF-8'
+public static final long LAST_MODIFIED = 1570673128216L
+public static final String EXPRESSION_CODEC = 'html'
+public static final String STATIC_CODEC = 'none'
+public static final String OUT_CODEC = 'html'
+public static final String TAGLIB_CODEC = 'none'
+}
